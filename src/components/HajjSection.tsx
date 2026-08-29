@@ -9,6 +9,7 @@ interface HajjSectionProps {
   onCategoryChange: (category: 'pakistan' | 'international') => void;
   onViewDetails: (pkg: TravelPackage) => void;
   onSharePackage: (pkg: TravelPackage) => void;
+  onViewBrochure?: (pkg: TravelPackage) => void;
 }
 
 export const HajjSection: React.FC<HajjSectionProps> = ({
@@ -16,6 +17,7 @@ export const HajjSection: React.FC<HajjSectionProps> = ({
   onCategoryChange,
   onViewDetails,
   onSharePackage,
+  onViewBrochure,
 }) => {
   const currentPackages =
     selectedCategory === 'pakistan'
@@ -77,6 +79,7 @@ export const HajjSection: React.FC<HajjSectionProps> = ({
               pkg={currentPackages[0]}
               onViewDetails={onViewDetails}
               onSharePackage={onSharePackage}
+              onViewBrochure={onViewBrochure}
             />
           </div>
         ) : currentPackages.length === 2 ? (
@@ -87,6 +90,7 @@ export const HajjSection: React.FC<HajjSectionProps> = ({
                 pkg={pkg}
                 onViewDetails={onViewDetails}
                 onSharePackage={onSharePackage}
+                onViewBrochure={onViewBrochure}
               />
             ))}
           </div>
@@ -98,6 +102,7 @@ export const HajjSection: React.FC<HajjSectionProps> = ({
                 pkg={pkg}
                 onViewDetails={onViewDetails}
                 onSharePackage={onSharePackage}
+                onViewBrochure={onViewBrochure}
               />
             ))}
           </div>

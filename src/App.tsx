@@ -12,12 +12,14 @@ import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PackageDetailModal } from './components/PackageDetailModal';
 import { SharePackageModal } from './components/SharePackageModal';
+import { BrochureModal } from './components/BrochureModal';
 import { TravelPackage } from './types';
 
 export default function App() {
   const [hajjCategory, setHajjCategory] = useState<'pakistan' | 'international'>('pakistan');
   const [selectedDetailPackage, setSelectedDetailPackage] = useState<TravelPackage | null>(null);
   const [selectedSharePackage, setSelectedSharePackage] = useState<TravelPackage | null>(null);
+  const [selectedBrochurePackage, setSelectedBrochurePackage] = useState<TravelPackage | null>(null);
 
   const handleSelectHajjCategory = (cat: 'pakistan' | 'international') => {
     setHajjCategory(cat);
@@ -29,6 +31,10 @@ export default function App() {
 
   const handleSharePackage = (pkg: TravelPackage) => {
     setSelectedSharePackage(pkg);
+  };
+
+  const handleViewBrochure = (pkg: TravelPackage) => {
+    setSelectedBrochurePackage(pkg);
   };
 
   return (
@@ -49,12 +55,14 @@ export default function App() {
           onCategoryChange={handleSelectHajjCategory}
           onViewDetails={handleViewDetails}
           onSharePackage={handleSharePackage}
+          onViewBrochure={handleViewBrochure}
         />
 
         {/* 5. Umrah Packages Section */}
         <UmrahSection
           onViewDetails={handleViewDetails}
           onSharePackage={handleSharePackage}
+          onViewBrochure={handleViewBrochure}
         />
 
         {/* 6. Why Choose Al Muntaha Travels and Tours */}
@@ -84,12 +92,22 @@ export default function App() {
           setSelectedDetailPackage(null);
           setSelectedSharePackage(pkg);
         }}
+        onViewBrochure={(pkg) => {
+          setSelectedBrochurePackage(pkg);
+        }}
       />
 
       <SharePackageModal
         pkg={selectedSharePackage}
         onClose={() => setSelectedSharePackage(null)}
       />
+
+      <BrochureModal
+        pkg={selectedBrochurePackage}
+        isOpen={!!selectedBrochurePackage}
+        onClose={() => setSelectedBrochurePackage(null)}
+      />
     </div>
   );
 }
+

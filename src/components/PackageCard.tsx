@@ -6,11 +6,8 @@ import {
   Eye, 
   Share2, 
   MapPin, 
-  Plane, 
-  Utensils, 
-  ShieldCheck,
   Sparkles,
-  ArrowRight
+  Image as ImageIcon
 } from 'lucide-react';
 import { TravelPackage } from '../types';
 import { getHajjWhatsAppUrl, getUmrahWhatsAppUrl } from '../utils/helpers';
@@ -19,12 +16,14 @@ interface PackageCardProps {
   pkg: TravelPackage;
   onViewDetails: (pkg: TravelPackage) => void;
   onSharePackage: (pkg: TravelPackage) => void;
+  onViewBrochure?: (pkg: TravelPackage) => void;
 }
 
 export const PackageCard: React.FC<PackageCardProps> = ({
   pkg,
   onViewDetails,
   onSharePackage,
+  onViewBrochure,
 }) => {
   const whatsAppUrl = pkg.type === 'hajj' 
     ? getHajjWhatsAppUrl(pkg) 
@@ -190,6 +189,63 @@ export const PackageCard: React.FC<PackageCardProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Visual Flyer Preview & Lightbox Trigger */}
+        {pkg.flyerImage && (
+          <div 
+            onClick={() => onViewBrochure && onViewBrochure(pkg)}
+            className="p-2.5 rounded-xl bg-gradient-to-r from-blue-900 via-slate-900 to-blue-950 border border-amber-400/60 shadow-sm cursor-pointer group/flyer relative overflow-hidden transition-all hover:border-amber-300 hover:shadow-md"
+          >
+            <div className="flex items-center gap-3">
+              <div className="relative w-16 h-20 rounded-lg overflow-hidden border border-amber-400/80 shrink-0 shadow-md bg-slate-950">
+                <img 
+                  src={pkg.flyerImage} 
+                  alt={`${pkg.name} Official Flyer`}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover group-hover/flyer:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-slate-950/30 group-hover/flyer:bg-transparent transition-colors flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-full bg-amber-400/90 text-slate-950 flex items-center justify-center font-bold shadow-xs">
+                    <ImageIcon className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/30">
+                    Official Flyer
+                  </span>
+                  <span className="text-[10px] text-slate-300">
+                    HD View & Save
+                  </span>
+                </div>
+                <p className="text-xs font-bold text-white mt-1 group-hover/flyer:text-amber-300 transition-colors">
+                  Click to View & Enlarge Flyer
+                </p>
+                <p className="text-[11px] text-slate-300 leading-tight mt-0.5">
+                  Full rates, Makkah/Madinah hotels, timeline & 1-click JPEG download.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* View Brochure Visual Flyer Link (for packages without inline thumbnail or additional quick button) */}
+        {onViewBrochure && !pkg.flyerImage && (
+          <button
+            onClick={() => onViewBrochure(pkg)}
+            className="w-full py-2 px-3 rounded-xl bg-amber-50 hover:bg-amber-100/90 border border-amber-300/80 text-amber-900 text-xs font-bold flex items-center justify-between transition-colors cursor-pointer group/brochure"
+          >
+            <span className="flex items-center gap-1.5">
+              <ImageIcon className="w-4 h-4 text-amber-600" />
+              <span>View Brochure Flyer (JPEG)</span>
+            </span>
+            <span className="text-[10px] uppercase tracking-wider bg-amber-400 text-slate-950 px-2 py-0.5 rounded font-black group-hover/brochure:scale-105 transition-transform">
+              View & Save
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Card Action Footer with High-Conversion Touch Buttons */}
@@ -233,4 +289,5 @@ export const PackageCard: React.FC<PackageCardProps> = ({
     </div>
   );
 };
+
 

@@ -39,6 +39,7 @@ export interface TravelPackage {
   specialFeatures: string[];
   status?: 'Available' | 'Filling Fast' | 'Limited Slots' | 'Waitlist';
   badge?: string;
+  flyerImage?: string;
   itinerarySummary?: string[];
   importantNotes?: string[];
 }

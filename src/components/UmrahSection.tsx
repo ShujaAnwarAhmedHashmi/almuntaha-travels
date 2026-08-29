@@ -8,11 +8,13 @@ import { getGeneralWhatsAppUrl } from '../utils/helpers';
 interface UmrahSectionProps {
   onViewDetails: (pkg: TravelPackage) => void;
   onSharePackage: (pkg: TravelPackage) => void;
+  onViewBrochure?: (pkg: TravelPackage) => void;
 }
 
 export const UmrahSection: React.FC<UmrahSectionProps> = ({
   onViewDetails,
   onSharePackage,
+  onViewBrochure,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
@@ -74,6 +76,7 @@ export const UmrahSection: React.FC<UmrahSectionProps> = ({
               pkg={filteredPackages[0]}
               onViewDetails={onViewDetails}
               onSharePackage={onSharePackage}
+              onViewBrochure={onViewBrochure}
             />
           </div>
         ) : filteredPackages.length === 2 ? (
@@ -84,6 +87,7 @@ export const UmrahSection: React.FC<UmrahSectionProps> = ({
                 pkg={pkg}
                 onViewDetails={onViewDetails}
                 onSharePackage={onSharePackage}
+                onViewBrochure={onViewBrochure}
               />
             ))}
           </div>
@@ -95,6 +99,7 @@ export const UmrahSection: React.FC<UmrahSectionProps> = ({
                 pkg={pkg}
                 onViewDetails={onViewDetails}
                 onSharePackage={onSharePackage}
+                onViewBrochure={onViewBrochure}
               />
             ))}
           </div>

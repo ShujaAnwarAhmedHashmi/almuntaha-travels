@@ -17,23 +17,27 @@ import {
   Download,
   Building2,
   Sparkles,
-  ShieldCheck
+  ShieldCheck,
+  Image as ImageIcon
 } from 'lucide-react';
 import { TravelPackage } from '../types';
 import { getHajjWhatsAppUrl, getUmrahWhatsAppUrl } from '../utils/helpers';
 import { contactData } from '../data/travelData';
 import { downloadPackagePDF } from '../utils/pdfGenerator';
+import { downloadPackageJPEG } from '../utils/jpegBrochureGenerator';
 
 interface PackageDetailModalProps {
   pkg: TravelPackage | null;
   onClose: () => void;
   onShare: (pkg: TravelPackage) => void;
+  onViewBrochure?: (pkg: TravelPackage) => void;
 }
 
 export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
   pkg,
   onClose,
   onShare,
+  onViewBrochure,
 }) => {
   if (!pkg) return null;
 
@@ -45,6 +49,29 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
 
   const handleDownloadPDF = () => {
     downloadPackagePDF(pkg);
+  };
+
+  const handleDownloadJPEG = async () => {
+    if (!pkg) return;
+    if (pkg.flyerImage) {
+      try {
+        const response = await fetch(pkg.flyerImage);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `Al-Muntaha-${pkg.name.replace(/[^a-zA-Z0-9]/g, '-')}-Official-Flyer.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        return;
+      } catch {
+        await downloadPackageJPEG(pkg);
+        return;
+      }
+    }
+    await downloadPackageJPEG(pkg);
   };
 
   return (
@@ -136,22 +163,101 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
         {/* Modal Scrollable Body */}
         <div className="p-4 sm:p-6 lg:p-7 overflow-y-auto space-y-6 flex-1 bg-slate-50/40">
           
-          {/* Quick PDF & Booking Announcement */}
-          <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          {/* Quick PDF & Visual JPEG Brochure Action Box */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/10 via-amber-500/10 to-emerald-500/10 border border-amber-300/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2.5 text-blue-950 font-medium">
-              <ShieldCheck className="w-5 h-5 text-blue-700 shrink-0" />
-              <span>
-                Want an offline copy or to share with family? Download the verified brochure in PDF format.
-              </span>
+              <ShieldCheck className="w-6 h-6 text-blue-900 shrink-0" />
+              <div>
+                <strong className="block text-slate-900 font-bold">Download Official Package Brochure</strong>
+                <span className="text-slate-600 text-[11px]">Save as high-resolution JPEG image or printable PDF for family review.</span>
+              </div>
             </div>
-            <button
-              onClick={handleDownloadPDF}
-              className="w-full sm:w-auto px-4 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 text-white font-bold inline-flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95 shrink-0"
-            >
-              <Download className="w-4 h-4 text-amber-400" />
-              <span>Download PDF</span>
-            </button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              {onViewBrochure && (
+                <button
+                  onClick={() => onViewBrochure(pkg)}
+                  className="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black inline-flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95 shrink-0"
+                >
+                  <ImageIcon className="w-4 h-4 text-slate-950" />
+                  <span>View JPEG Flyer</span>
+                </button>
+              )}
+              <button
+                onClick={handleDownloadJPEG}
+                className="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold inline-flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95 shrink-0"
+              >
+                <Download className="w-4 h-4 text-amber-400" />
+                <span>Save JPEG</span>
+              </button>
+            </div>
           </div>
+
+          {/* Official Flyer Poster Highlight (When available) */}
+          {pkg.flyerImage && (
+            <div className="p-4 rounded-2xl bg-slate-900 text-white border border-amber-400/50 shadow-md">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-amber-400/20 text-amber-400 flex items-center justify-center">
+                    <ImageIcon className="w-3.5 h-3.5" />
+                  </span>
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                    Official High-Definition Package Flyer
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-400 bg-white/10 px-2 py-0.5 rounded">
+                  1200×1680px High Quality
+                </span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div 
+                  onClick={() => onViewBrochure && onViewBrochure(pkg)}
+                  className="relative w-36 h-48 sm:w-40 sm:h-56 rounded-xl overflow-hidden border-2 border-amber-400/80 shadow-xl cursor-pointer group shrink-0 bg-slate-950"
+                  title="Click to Enlarge Flyer"
+                >
+                  <img 
+                    src={pkg.flyerImage} 
+                    alt={`${pkg.name} Official Flyer`}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                    <span className="px-2.5 py-1 rounded-lg bg-amber-400 text-slate-950 text-[11px] font-black uppercase tracking-wider shadow-lg flex items-center gap-1">
+                      <ImageIcon className="w-3 h-3" />
+                      <span>Click to View</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex-1 space-y-2 text-center sm:text-left">
+                  <h5 className="font-bold text-white text-sm font-serif">
+                    Official Al Muntaha Travels Package Flyer (Hajj 2027)
+                  </h5>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Click the flyer thumbnail to open the interactive full-screen viewer with zoom controls, full room pricing breakdown, hotel details, and direct JPEG download.
+                  </p>
+                  <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    {onViewBrochure && (
+                      <button
+                        onClick={() => onViewBrochure(pkg)}
+                        className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider inline-flex items-center gap-1.5 transition-all shadow-md cursor-pointer active:scale-95"
+                      >
+                        <ImageIcon className="w-3.5 h-3.5" />
+                        <span>Enlarge & View Fullscreen</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={handleDownloadJPEG}
+                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold inline-flex items-center gap-1.5 transition-all border border-slate-700 cursor-pointer active:scale-95"
+                    >
+                      <Download className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Download Image (JPEG)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Hotels Breakdown */}
           <div>
@@ -342,8 +448,17 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
         {/* Modal Sticky Footer / Action Buttons */}
         <div className="p-3.5 sm:p-5 bg-white border-t border-slate-200 shrink-0">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5">
-            {/* Left action group: Share & PDF */}
+            {/* Left action group: Share & PDF & JPEG */}
             <div className="w-full sm:w-auto flex items-center gap-2">
+              <button
+                onClick={handleDownloadJPEG}
+                id="btn-modal-jpeg"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 py-3 px-3.5 rounded-xl text-xs font-bold text-slate-900 bg-amber-100 hover:bg-amber-200 active:scale-95 transition-all cursor-pointer border border-amber-300 min-h-[44px]"
+              >
+                <ImageIcon className="w-4 h-4 text-amber-800 shrink-0" />
+                <span>Save JPEG</span>
+              </button>
+
               <button
                 onClick={handleDownloadPDF}
                 id="btn-modal-pdf"
@@ -356,10 +471,9 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
               <button
                 onClick={() => onShare(pkg)}
                 id="btn-modal-share"
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 py-3 px-3.5 rounded-xl text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 active:scale-95 transition-all cursor-pointer border border-slate-300/80 min-h-[44px]"
+                className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-blue-900 rounded-xl transition-colors cursor-pointer shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center active:scale-95 border border-slate-300/80"
               >
-                <Share2 className="w-4 h-4 text-slate-600 shrink-0" />
-                <span>Share</span>
+                <Share2 className="w-4 h-4" />
               </button>
             </div>
 
@@ -391,3 +505,4 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
     </div>
   );
 };
+

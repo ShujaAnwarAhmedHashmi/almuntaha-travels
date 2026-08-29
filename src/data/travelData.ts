@@ -1,4 +1,5 @@
 import { ContactDetails, TravelPackage, TrustItem, WhyChooseItem, StepItem, PartnerCompany } from '../types';
+import intlHajjFlyerImage from '../assets/images/intl_hajj_2027_flyer_1788037077432.jpg';
 
 export const partnerCompanies: PartnerCompany[] = [
   {
@@ -314,6 +315,7 @@ export const internationalHajjPackages: TravelPackage[] = [
     dates: 'Dhul Hijjah 1448 AH (Hajj 2027 Season)',
     status: 'Limited Slots',
     badge: 'Economy Package ★★★ • Maktab C',
+    flyerImage: intlHajjFlyerImage,
     makkahHotel: {
       name: 'Aziziyah Accommodation (Makkah)',
       distance: 'Near Qubri Khalid (Aziziyah, Makkah)',
