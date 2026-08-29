@@ -106,19 +106,19 @@ export const Hero: React.FC = () => {
                   </div>
                   
                   <h3 className="text-2xl font-bold font-serif mb-1">
-                    Executive Pakistan
+                    Hajj 2027 Packages
                   </h3>
-                  <p className="text-xs text-sky-200">14 Days Short Duration</p>
+                  <p className="text-xs text-sky-200">Maktab C • 18 Years of Serving Hujjaj</p>
 
                   <div className="h-px bg-white/20 my-4" />
 
                   <p className="text-sm text-slate-200 italic mb-4">
-                    Direct Airline Flights • 5-Star Front Row Hotels • Full Buffet
+                    Clock Tower & Aziziyah • 200m Madinah Markazia • Flights & Qurbani
                   </p>
 
                   <div className="flex items-baseline justify-center gap-1.5 font-mono mb-4">
                     <span className="text-xs text-sky-200 uppercase font-sans">Starts at</span>
-                    <span className="text-2xl font-black text-amber-300">PKR 1,450,000</span>
+                    <span className="text-2xl font-black text-amber-300">PKR 17,25,000</span>
                   </div>
 
                   <button

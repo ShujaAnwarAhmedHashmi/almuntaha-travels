@@ -12,7 +12,7 @@ export interface HotelInfo {
 }
 
 export interface SharingPricing {
-  sharingType: 'Quad' | 'Triple' | 'Double' | 'Single';
+  sharingType: 'Sharing' | 'Quad' | 'Triple' | 'Double' | 'Single';
   price: string;
 }
 
@@ -49,6 +49,8 @@ export interface ContactDetails {
   subTagline: string;
   whatsappNumber: string;
   whatsappDisplay: string;
+  whatsappNumber2?: string;
+  whatsappDisplay2?: string;
   phoneNumber: string;
   phoneDisplay: string;
   email: string;
@@ -76,4 +78,12 @@ export interface StepItem {
   number: string;
   title: string;
   description: string;
+}
+
+export interface PartnerCompany {
+  id: string;
+  name: string;
+  type: string;
+  tagline?: string;
+  badge?: string;
 }

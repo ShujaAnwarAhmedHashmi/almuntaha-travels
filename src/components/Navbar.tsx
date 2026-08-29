@@ -111,6 +111,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectCategory }) => {
               About
             </button>
             <button
+              onClick={() => handleNavClick('partners-section')}
+              id="nav-partners"
+              className="hover:text-blue-900 transition-colors cursor-pointer"
+            >
+              Partners
+            </button>
+            <button
               onClick={() => handleNavClick('contact-section')}
               id="nav-contact"
               className="hover:text-blue-900 transition-colors cursor-pointer"
@@ -194,6 +201,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectCategory }) => {
               className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-900"
             >
               Why Choose Us
+            </button>
+            <button
+              onClick={() => handleNavClick('partners-section')}
+              className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-900"
+            >
+              Official Partners
             </button>
             <button
               onClick={() => handleNavClick('contact-section')}

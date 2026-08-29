@@ -76,15 +76,28 @@ Assalamualaikum, please share availability, room configurations, and the step-by
                 <p className="text-xs text-sky-100 mb-4">
                   Chat instantly with our dedicated Hajj & Umrah travel consultants.
                 </p>
-                <a
-                  href={`https://wa.me/${formatPhoneForWhatsApp(contactData.whatsappNumber)}?text=${encodeURIComponent('Assalamualaikum, I am contacting you from your website regarding Hajj 2027 / Umrah packages.')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
-                >
-                  <MessageCircle className="w-4 h-4 fill-slate-950" />
-                  <span>Chat on WhatsApp ({contactData.whatsappDisplay})</span>
-                </a>
+                <div className="space-y-2">
+                  <a
+                    href={`https://wa.me/${formatPhoneForWhatsApp(contactData.whatsappNumber)}?text=${encodeURIComponent('Assalamualaikum, I am contacting you from your website regarding Hajj 2027 / Umrah packages.')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-slate-950" />
+                    <span>WhatsApp 1: {contactData.whatsappDisplay}</span>
+                  </a>
+                  {contactData.whatsappNumber2 && (
+                    <a
+                      href={`https://wa.me/${formatPhoneForWhatsApp(contactData.whatsappNumber2)}?text=${encodeURIComponent('Assalamualaikum, I am contacting you from your website regarding Hajj 2027 / Umrah packages.')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-white/15 hover:bg-white/25 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-white/20"
+                    >
+                      <MessageCircle className="w-4 h-4 text-emerald-400" />
+                      <span>WhatsApp 2: {contactData.whatsappDisplay2}</span>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -7,6 +7,7 @@ import { UmrahSection } from './components/UmrahSection';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { ProcessSteps } from './components/ProcessSteps';
 import { ContactSection } from './components/ContactSection';
+import { PartnersSection } from './components/PartnersSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PackageDetailModal } from './components/PackageDetailModal';
@@ -62,11 +63,14 @@ export default function App() {
         {/* 7. Simple 4-Step Journey Process */}
         <ProcessSteps />
 
-        {/* 8. Contact & WhatsApp Integration */}
+        {/* 8. Official Partners Section */}
+        <PartnersSection />
+
+        {/* 9. Contact & WhatsApp Integration */}
         <ContactSection />
       </main>
 
-      {/* 9. Footer */}
+      {/* 10. Footer */}
       <Footer onSelectCategory={handleSelectHajjCategory} />
 
       {/* 10. Floating WhatsApp Action */}

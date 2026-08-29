@@ -70,17 +70,38 @@ export const HajjSection: React.FC<HajjSectionProps> = ({
           </div>
         </div>
 
-        {/* Packages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {currentPackages.map((pkg) => (
+        {/* Packages Display */}
+        {currentPackages.length === 1 ? (
+          <div className="max-w-xl mx-auto">
             <PackageCard
-              key={pkg.id}
-              pkg={pkg}
+              pkg={currentPackages[0]}
               onViewDetails={onViewDetails}
               onSharePackage={onSharePackage}
             />
-          ))}
-        </div>
+          </div>
+        ) : currentPackages.length === 2 ? (
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {currentPackages.map((pkg) => (
+              <PackageCard
+                key={pkg.id}
+                pkg={pkg}
+                onViewDetails={onViewDetails}
+                onSharePackage={onSharePackage}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {currentPackages.map((pkg) => (
+              <PackageCard
+                key={pkg.id}
+                pkg={pkg}
+                onViewDetails={onViewDetails}
+                onSharePackage={onSharePackage}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Note Below Packages */}
         <div className="mt-10 p-4 rounded-xl bg-white border border-slate-200 text-center max-w-2xl mx-auto text-xs sm:text-sm text-slate-600 shadow-2xs">

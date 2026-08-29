@@ -116,6 +116,14 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
               </li>
               <li>
                 <button
+                  onClick={() => handleNavClick('partners-section')}
+                  className="hover:text-amber-400 transition-colors cursor-pointer text-left"
+                >
+                  Our Partners
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => handleNavClick('contact-section')}
                   className="hover:text-amber-400 transition-colors cursor-pointer text-left"
                 >

@@ -58,7 +58,7 @@ export function formatPackageShareText(pkg: TravelPackage): string {
 ${pkg.inclusions.slice(0, 5).map(inc => `✓ ${inc}`).join('\n')}
 
 📞 *Contact & Inquiries:*
-WhatsApp: ${contactData.whatsappDisplay}
+WhatsApp: ${contactData.whatsappDisplay} & ${contactData.whatsappDisplay2 || contactData.whatsappDisplay}
 Email: ${contactData.email}
 Website: https://almuntahatravels.com
 
